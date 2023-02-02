@@ -4,11 +4,11 @@ import React, { useEffect, useState } from 'react';
 const HomePage = () => {
   const [locations, setLocations] = useState([]);
   const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchLocations = async () => {
-      setLoading(true)
+      setLoading(true);
       try {
         const response = await axios.get(
           'https://netzwelt-devtest.azurewebsites.net/Territories/All'
@@ -17,15 +17,26 @@ const HomePage = () => {
       } catch (error) {
         setError(error);
       }
-      setLoading(false)
+      setLoading(false);
     };
     fetchLocations();
   }, []);
 
-  // error handling
-  if (error) {
+  // loading handling
+  if (loading) {
     return <div>Loading...</div>;
   }
+
+  // error handling
+  if (error) {
+    return <div>An error occured: {error.message}</div>;
+  }
+
+  // if no available data
+  if (!locations.length) {
+    return <div>No available data</div>;
+  }
+
   return (
     <div>
       <h1>Hierarchical Tree of Places</h1>
