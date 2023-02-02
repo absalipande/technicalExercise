@@ -4,18 +4,27 @@ import axios from 'axios';
 const LoginForm = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState(null);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post('https://netzwelt-devtest.azurewebsites.net/Account/SignIn', {
-        username: username,
-        password: password,
-      });
+      const response = await axios.post(
+        'https://netzwelt-devtest.azurewebsites.net/Account/SignIn',
+        {
+          username: username,
+          password: password,
+        }
+      );
       // if succesful
-      console.log(response.data);
+      if (response.data === 200) {
+        console.log(response.data);
+      } else {
+        throw new Error('Login failed');
+      }
     } catch (error) {
       console.error(error);
+      setError('Invalid credentials')
     }
   };
 

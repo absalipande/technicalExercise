@@ -4,12 +4,10 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path='/login' component={LoginForm} />
-        <Route path='/home' component={HomePage} />
-      </Routes>
-    </BrowserRouter>
+    <div>
+      <LoginForm />
+      {/* <HomePage /> */}
+    </div>
   );
 }
 
