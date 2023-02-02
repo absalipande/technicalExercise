@@ -2,6 +2,7 @@ import * as dotenv from 'dotenv';
 import express from 'express';
 import session from 'express-session';
 import cors from 'cors';
+import helmet from 'helmet';
 import authRouter from './routes/authRouter.js';
 dotenv.config();
 
@@ -16,7 +17,9 @@ const corsOption = {
 };
 
 app.use(cors(corsOption));
+app.use(helmet());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(
   session({
     secret: 'random-key',
