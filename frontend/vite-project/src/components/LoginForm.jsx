@@ -9,6 +9,7 @@ const LoginForm = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setLoading(true);
     try {
       const response = await axios.post(
         'https://netzwelt-devtest.azurewebsites.net/Account/SignIn',
