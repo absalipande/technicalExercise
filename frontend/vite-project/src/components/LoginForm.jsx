@@ -8,9 +8,9 @@ const LoginForm = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3070/login', {
-        username,
-        password,
+      const response = await axios.post('https://netzwelt-devtest.azurewebsites.net/Account/SignIn', {
+        username: username,
+        password: password,
       });
       // if succesful
       console.log(response.data);
