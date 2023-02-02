@@ -5,6 +5,7 @@ const LoginForm = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -19,12 +20,16 @@ const LoginForm = () => {
       // if succesful
       if (response.data === 200) {
         console.log(response.data);
+        setLoading(false);
+        localStorage.setItem('token', response.data.token);
+        window.location.href = '/home';
       } else {
         throw new Error('Login failed');
       }
     } catch (error) {
       console.error(error);
-      setError('Invalid credentials')
+      setError('Invalid credentials');
+      setLoading(false);
     }
   };
 
@@ -61,10 +66,11 @@ const LoginForm = () => {
           <p>Forgot Password</p>
         </div>
         <button
+          disabled={loading}
           type='submit'
           className='w-full my-5 py-2 bg-teal-500 shadow-lg shadow-teal-500/50 hover:shadow-teal-500/40 text-white font-semibold rounded-lg'
         >
-          SIGN IN
+          {loading ? 'Loading...' : 'Submit'}
         </button>
       </form>
     </div>
