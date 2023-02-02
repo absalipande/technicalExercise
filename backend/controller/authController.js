@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const logInController = async (request, response) => {
+export const logInController = async (request, response) => {
   // these are the only info that we need
   const { username, password } = request.body;
 
@@ -21,7 +21,7 @@ const logInController = async (request, response) => {
   }
 };
 
-const territoryController = async (request, response) => {
+export const territoryController = async (request, response) => {
   // if not valid user, we will redirect the user to the login page
   if (!request.session.username) {
     return response.redirect('/login');
@@ -40,4 +40,3 @@ const territoryController = async (request, response) => {
   }
 };
 
-export default { logInController, territoryController };
