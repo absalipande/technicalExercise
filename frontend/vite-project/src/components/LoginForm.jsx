@@ -25,9 +25,6 @@ const LoginForm = () => {
         onSubmit={handleSubmit}
         className='max-w-[400px] w-full mx-auto rounded-lg bg-gray-900 p-8 px-8'
       >
-        <h2 className='text-4xl dark:text-white font-bold text-center'>
-          HELLO
-        </h2>
         <div className='flex flex-col text-gray-400 py-2'>
           <label htmlFor='username'>Username</label>
           <input
@@ -54,7 +51,10 @@ const LoginForm = () => {
           </p>
           <p>Forgot Password</p>
         </div>
-        <button type='submit' className='w-full my-5 py-2 bg-teal-500 shadow-lg shadow-teal-500/50 hover:shadow-teal-500/40 text-white font-semibold rounded-lg'>
+        <button
+          type='submit'
+          className='w-full my-5 py-2 bg-teal-500 shadow-lg shadow-teal-500/50 hover:shadow-teal-500/40 text-white font-semibold rounded-lg'
+        >
           SIGN IN
         </button>
       </form>
