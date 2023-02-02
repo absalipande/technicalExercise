@@ -25,7 +25,7 @@ const LoginForm = () => {
         onSubmit={handleSubmit}
         className='max-w-[400px] w-full mx-auto rounded-lg bg-gray-900 p-8 px-8'
       >
-        <div className='flex flex-col text-gray-400 py-2'>
+        <div className='flex flex-col text-white py-2'>
           <label htmlFor='username'>Username</label>
           <input
             type='text'
@@ -35,7 +35,7 @@ const LoginForm = () => {
             onChange={(event) => setUsername(event.target.value)}
           />
         </div>
-        <div className='flex flex-col text-gray-400 py-2'>
+        <div className='flex flex-col text-white py-2'>
           <label htmlFor='password'>Password</label>
           <input
             className='p-2 rounded-lg bg-gray-700 mt-2 focus:border-blue-500 focus:bg-gray-800 focus:outline-none'
@@ -45,7 +45,7 @@ const LoginForm = () => {
             onChange={(event) => setPassword(event.target.value)}
           />
         </div>
-        <div className='flex justify-between text-gray-400 py-2'>
+        <div className='flex justify-between text-white py-2'>
           <p className='flex items-center'>
             <input className='mr-2' type='checkbox' /> Remember Me
           </p>
