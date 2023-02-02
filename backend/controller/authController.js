@@ -21,7 +21,7 @@ export const logInController = async (request, response) => {
   }
 };
 
-export const territoryController = async (request, response) => {
+export const homePageController = async (request, response) => {
   // if not valid user, we will redirect the user to the login page
   if (!request.session.username) {
     return response.redirect('/login');
