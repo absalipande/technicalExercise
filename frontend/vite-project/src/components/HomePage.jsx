@@ -4,9 +4,11 @@ import React, { useEffect, useState } from 'react';
 const HomePage = () => {
   const [locations, setLocations] = useState([]);
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     const fetchLocations = async () => {
+      setLoading(true)
       try {
         const response = await axios.get(
           'https://netzwelt-devtest.azurewebsites.net/Territories/All'
@@ -15,13 +17,14 @@ const HomePage = () => {
       } catch (error) {
         setError(error);
       }
+      setLoading(false)
     };
     fetchLocations();
   }, []);
 
   // error handling
   if (error) {
-    return <div>An error occured: {error.message} </div>;
+    return <div>Loading...</div>;
   }
   return (
     <div>
