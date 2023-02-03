@@ -7,7 +7,7 @@ import { checkAuth } from '../middleware/checkAuth.js';
 
 const router = express.Router();
 
-router.post('login', logInController);
-router.get('home', checkAuth, homePageController);
+router.post('/login', logInController);
+router.get('/home', checkAuth, homePageController);
 
 export default router;
