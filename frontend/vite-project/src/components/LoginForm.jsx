@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 
 const LoginForm = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -27,14 +25,14 @@ const LoginForm = () => {
         }
       );
       // if response is not succesful
-      if (!response.data.token) {
+      if (response.data !== 200) {
         throw new Error('Login failed');
       }
       // if succesful
       console.log(response.data);
       setLoading(false);
-      localStorage.setItem('accessToken', response.data.token);
-      navigate('/home');
+      localStorage.setItem('token', response.data.token);
+      window.location.href = '/home';
     } catch (error) {
       console.error(error);
       setError(error.message || 'Something went wrong, please try again later');
