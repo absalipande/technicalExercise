@@ -13,7 +13,7 @@ const LoginForm = () => {
     setError(null);
     try {
       const response = await axios.post(
-        'localhost:3070/login',
+        'http://localhost:3070/login',
         {
           username,
           password,
@@ -25,7 +25,7 @@ const LoginForm = () => {
         }
       );
       // if response is not succesful
-      if (response.data !== 200) {
+      if (!response.data.username || !response.data.roles) {
         throw new Error('Login failed');
       }
       // if succesful
