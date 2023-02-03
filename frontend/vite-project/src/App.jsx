@@ -11,14 +11,14 @@ const AuthContext = React.createContext({
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  const handleLoginSucces = () => {
+  const handleLoginSuccess = () => {
     setIsAuthenticated(true);
   };
 
   return (
     <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated }}>
-      <LoginForm onLoginSuccess={handleLoginSucces} />
-      <HomePage />
+      {!isAuthenticated && <LoginForm onLoginSuccess={handleLoginSuccess} />}
+      {isAuthenticated && <HomePage />}
     </AuthContext.Provider>
   );
 };
