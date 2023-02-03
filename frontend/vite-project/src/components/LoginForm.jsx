@@ -29,7 +29,7 @@ const LoginForm = () => {
       }
     } catch (error) {
       console.error(error);
-      setError('Invalid credentials');
+      setError(error.message || 'Something went wrong, please try again later');
       setLoading(false);
     }
   };
@@ -66,6 +66,9 @@ const LoginForm = () => {
           </p>
           <p>Forgot Password</p>
         </div>
+        {error && (
+          <div className='bg-red-500 py-2 text-white text-center'>{error}</div>
+        )}
         <button
           disabled={loading}
           type='submit'
