@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const LoginForm = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -34,14 +34,14 @@ const LoginForm = () => {
       console.log(response.data);
       setLoading(false);
       localStorage.setItem('token', response.data.token);
-      history.push('/home');
+      navigate('/home');
     } catch (error) {
       console.error(error);
       setError(error.message || 'Something went wrong, please try again later');
       setLoading(false);
     }
   };
-  
+
   return (
     <div className='bg-gray-800 flex flex-col justify-center h-screen'>
       <form
