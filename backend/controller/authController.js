@@ -1,29 +1,32 @@
 import axios from 'axios';
-import * as dotenv from 'dotenv';
-dotenv.config();
-
-const API_URL = process.env.API_URL;
 
 export const logInController = async (req, res) => {
   // these are the only info that we need
   const { username, password } = req.body;
 
   try {
-    const apiResponse = await axios.post(`${API_URL}/Account/SignIn`, {
-      username,
-      password,
-    });
+    const apiResponse = await axios.post(
+      `http://localhost:3070/Account/SignIn`,
+      {
+        username,
+        password,
+      }
+    );
     const { username, roles, token } = apiResponse.data;
     // additional error handling
     if (!username || !roles) {
-      return res.status(401).json({ error: 'Unauthorized' });
+      return res.status(401).json({ error: 'Unable to authenticate user' });
     }
 
     // all the username and roles will be stored in the session respectively
-    req.session.token = token;
-    res.status(200).json({ message: 'User authenticated successfully' });
+    req.session.set({
+      username,
+      roles,
+    });
+    // send the token back
+    res.status(200).json({ token });
   } catch (error) {
-    res.status(500).json({ error: 'Failed to authenticate user' });
+    res.status(401).json({ error: 'Failed to authenticate user' });
   }
 };
 
