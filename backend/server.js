@@ -11,7 +11,7 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3050;
 
-app.use(corsMiddleWare);
+app.use(cors())
 app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
