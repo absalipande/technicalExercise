@@ -11,32 +11,26 @@ const LoginForm = () => {
     event.preventDefault();
     setLoading(true);
     setError(null);
+
     try {
-      const response = await axios.post(
-        'http://localhost:3070/login',
-        {
-          username,
-          password,
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      );
-      // if response is not succesful
-      if (!response.data.username || !response.data.roles) {
-        throw new Error('Login failed');
+      const response = await axios.post('http://localhost:3070/login', {
+        username,
+        password,
+      });
+
+      if (response.status === 200) {
+        setLoading(false);
+        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('username', response.data.username);
+        localStorage.setItem('roles', JSON.stringify(response.data.roles));
+        window.location.href = '/home';
+      } else {
+        setLoading(false);
+        setError(response.data.error || 'Something went wrong, please try again later');
       }
-      // if succesful
-      console.log(response.data);
-      setLoading(false);
-      localStorage.setItem('username', response.data.username);
-      localStorage.setItem('roles', JSON.stringify(response.data.roles));
-      window.location.href = '/home';
     } catch (error) {
       console.error(error);
-      setError(error.message || 'Something went wrong, please try again later');
+      setError(error.message);
       setLoading(false);
     }
   };
