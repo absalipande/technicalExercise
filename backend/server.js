@@ -4,7 +4,6 @@ import session from 'express-session';
 import cors from 'cors';
 import helmet from 'helmet';
 
-import corsMiddleWare from './middleware/corsMiddleware.js';
 import authRouter from './routes/authRouter.js';
 
 dotenv.config();
