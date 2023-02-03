@@ -10,6 +10,7 @@ const LoginForm = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
+    setError(null);
     try {
       const response = await axios.post(
         'https://netzwelt-devtest.azurewebsites.net/Account/SignIn',
@@ -18,15 +19,15 @@ const LoginForm = () => {
           password: password,
         }
       );
-      // if succesful
-      if (response.data === 200) {
-        console.log(response.data);
-        setLoading(false);
-        localStorage.setItem('token', response.data.token);
-        window.location.href = '/home';
-      } else {
+      // if response is not succesful
+      if (response.data !== 200) {
         throw new Error('Login failed');
       }
+      // if succesful
+      console.log(response.data);
+      setLoading(false);
+      localStorage.setItem('token', response.data.token);
+      window.location.href = '/home';
     } catch (error) {
       console.error(error);
       setError(error.message || 'Something went wrong, please try again later');
