@@ -5,5 +5,10 @@ export const corsMiddleware = (req, res, next) => {
     'Access-Control-Allow-Headers',
     'Origin, X-Requested-With, Content-Type, Accept'
   );
+
+  if (req.methods === 'OPTIONS') {
+    res.status(200).end();
+    return;
+  }
   next();
 };
