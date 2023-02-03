@@ -5,34 +5,43 @@ dotenv.config();
 const API_URL = process.env.API_URL;
 
 export const logInController = async (req, res) => {
+  let username;
+  let password;
   // make sure that users doesnt input an empty string
   if (!req.body.username || !req.body.password) {
     return res
-      .status(400)
+      .status(401)
       .json({ error: 'Username and Password are required' });
   }
   // these are the only info that we need
-  const { username, password } = req.body;
-  if (username !== 'foo' || password !== 'bar') {
-    return res.status(401).json({ error: 'Invalid username or password' });
-  }
+  username = req.body.username;
+  password = req.body.password;
 
   try {
     const apiResponse = await axios.post(`${API_URL}/Account/SignIn`, {
       username,
       password,
     });
-    const { username, roles, token } = apiResponse.data;
+    console.log('API Response', apiResponse);
+    const {
+      username: apiUsername,
+      roles: apiRoles,
+      token: apiToken,
+    } = apiResponse.data;
+
     // additional error handling
-    if (!username || !roles) {
+    if (!apiUsername || !apiRoles || !apiToken) {
       return res.status(401).json({ error: 'Invalid username or password' });
     }
 
     // all the username and roles will be stored in the session respectively
     req.session.token = token;
-    res.status(200).json({ username, roles, token });
+    res
+      .status(200)
+      .json({ username: apiUsername, roles: apiRoles, token: apiToken });
   } catch (error) {
-    res.status(401).json({ error: 'Failed to authenticate user' });
+    console.error('API Error', error);
+    res.status(401).json({ error: 'invalid username or password' });
   }
 };
 
@@ -47,6 +56,6 @@ export const homePageController = async (req, res) => {
     const territories = axiosResponse.data;
     res.render('home', { territories });
   } catch (error) {
-    return res.status(400).json({ error: 'Failed to retrieve territories' });
+    return res.status(401).json({ error: 'Failed to retrieve territories' });
   }
 };
