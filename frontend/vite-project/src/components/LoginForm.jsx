@@ -13,7 +13,7 @@ const LoginForm = () => {
     setError(null);
     try {
       const response = await axios.post(
-        'https://netzwelt-devtest.azurewebsites.net/Account/SignIn',
+        'localhost:3070/login',
         {
           username,
           password,
@@ -31,7 +31,8 @@ const LoginForm = () => {
       // if succesful
       console.log(response.data);
       setLoading(false);
-      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('username', response.data.username);
+      localStorage.setItem('roles', JSON.stringify(response.data.roles));
       window.location.href = '/home';
     } catch (error) {
       console.error(error);
