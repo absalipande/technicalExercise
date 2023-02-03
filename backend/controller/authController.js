@@ -21,8 +21,8 @@ export const logInController = async (req, res) => {
 
   try {
     const apiResponse = await axios.post(`${API_URL}/Account/SignIn`, {
-      username,
-      password,
+      username: 'foo',
+      password: 'bar',
     });
     console.log('API Response', apiResponse);
     const {
