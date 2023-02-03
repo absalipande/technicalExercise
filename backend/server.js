@@ -12,10 +12,13 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3050;
 
-app.use(corsMiddleware)
+app.use(corsMiddleware);
 app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+// app.options('/Account/SignIn', corsMiddleware, (req, res) => {
+//   res.status(200).send();
+// });
 
 app.use(
   session({

@@ -13,7 +13,7 @@ export const logInController = async (req, res) => {
       username,
       password,
     });
-    const { username, roles } = apiResponse.data;
+    const { username, roles, token } = apiResponse.data;
     // additional error handling
     if (!username || !roles) {
       throw new Error('Unable to authenticate user');
@@ -25,8 +25,8 @@ export const logInController = async (req, res) => {
       roles,
     });
 
-    // after a succesful login, we will redirect the user to the homepage
-    res.redirect('/home');
+    // send the token back in the response
+    res.json({ token });
   } catch (error) {
     res.status(401).json({ error: 'Unauthorized' });
   }
