@@ -5,14 +5,14 @@ import cors from 'cors';
 import helmet from 'helmet';
 
 import authRouter from './routes/authRouter.js';
-import { corsMiddleware } from './middleware/corsMiddleware.js';
+// import { corsMiddleware } from './middleware/corsMiddleware.js';
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3050;
 
-app.use(corsMiddleware);
+app.use(cors());
 app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
