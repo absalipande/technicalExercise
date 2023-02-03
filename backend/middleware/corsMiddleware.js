@@ -5,8 +5,9 @@ export const corsMiddleware = (req, res, next) => {
     'Access-Control-Allow-Headers',
     'Origin, X-Requested-With, Content-Type, Accept'
   );
+  res.header('Access-Control-Allow-Credentials', 'true');
 
-  if (req.methods === 'OPTIONS') {
+  if (req.method === 'OPTIONS') {
     res.status(200).end();
     return;
   }
