@@ -33,7 +33,7 @@ const LoginForm = () => {
       // if succesful
       console.log(response.data);
       setLoading(false);
-      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('accessToken', response.data.token);
       navigate('/home');
     } catch (error) {
       console.error(error);

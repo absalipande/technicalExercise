@@ -1,12 +1,13 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Redirect } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const HomePage = () => {
   const [locations, setLocations] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchLocations = async () => {
@@ -35,7 +36,8 @@ const HomePage = () => {
 
   // redirect to login page if user is not logged in
   if (!isLoggedIn) {
-    return <Redirect to='/login' />;
+    navigate('/login');
+    return null;
   }
 
   // loading handling
@@ -48,7 +50,7 @@ const HomePage = () => {
     return <div>An error occured: {error}</div>;
   }
 
-  // if no available data
+  // if no avail data
   if (!locations.length) {
     return <div>No available data</div>;
   }
