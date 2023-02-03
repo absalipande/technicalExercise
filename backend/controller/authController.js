@@ -16,19 +16,14 @@ export const logInController = async (req, res) => {
     const { username, roles, token } = apiResponse.data;
     // additional error handling
     if (!username || !roles) {
-      throw new Error('Unable to authenticate user');
+      return res.status(401).json({ error: 'Unauthorized' });
     }
 
     // all the username and roles will be stored in the session respectively
-    req.session.set({
-      username,
-      roles,
-    });
-
-    // send the token back in the response
-    res.json({ token });
+    req.session.token = token;
+    res.status(200).json({ message: 'User authenticated successfully' });
   } catch (error) {
-    res.status(401).json({ error: 'Unauthorized' });
+    res.status(500).json({ error: 'Failed to authenticate user' });
   }
 };
 
