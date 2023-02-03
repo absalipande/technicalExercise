@@ -4,6 +4,7 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 const API_URL = process.env.API_URL;
+const secret = process.env.SECRET_KEY;
 
 export const logInController = async (req, res) => {
   const { username, password } = req.body;
@@ -36,11 +37,9 @@ export const logInController = async (req, res) => {
     }
 
     // sign a JWT token
-    const token = jwt.sign(
-      { username: apiUsername, roles: apiRoles },
-      process.env.SECRET_KEY,
-      { expiresIn: '1h' }
-    );
+    const token = jwt.sign({ username: apiUsername, roles: apiRoles }, secret, {
+      expiresIn: '1h',
+    });
     // all the username and roles will be stored in the session
     req.session.token = token;
     res.status(200).json({ username: apiUsername, roles: apiRoles, token });
