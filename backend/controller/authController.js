@@ -13,7 +13,10 @@ export const logInController = async (req, res) => {
   }
   // these are the only info that we need
   const { username, password } = req.body;
-
+  if (username !== 'foo' || password !== 'bar') {
+    return res.status(401).json({ error: 'Invalid username or password' });
+  }
+  
   try {
     const apiResponse = await axios.post(`${API_URL}/Account/SignIn`, {
       username,
@@ -27,7 +30,7 @@ export const logInController = async (req, res) => {
 
     // all the username and roles will be stored in the session respectively
     req.session.token = token;
-    res.status(200).json({ message: 'User authenticated successfully' });
+    res.status(200).json({ username, roles, token });
   } catch (error) {
     res.status(401).json({ error: 'Failed to authenticate user' });
   }
