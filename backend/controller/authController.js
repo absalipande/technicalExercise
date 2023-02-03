@@ -1,21 +1,22 @@
 import axios from 'axios';
+import jwt from 'jsonwebtoken';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
 const API_URL = process.env.API_URL;
 
 export const logInController = async (req, res) => {
-  let username;
-  let password;
+  const { username, password } = req.body;
   // make sure that users doesnt input an empty string
-  if (!req.body.username || !req.body.password) {
+  if (!username || !password) {
     return res
       .status(401)
       .json({ error: 'Username and Password are required' });
   }
-  // these are the only info that we need
-  username = req.body.username;
-  password = req.body.password;
+
+  if (username !== 'foo' || password !== 'bar') {
+    return res.status(401).json({ error: 'Invalid username or password' });
+  }
 
   try {
     const apiResponse = await axios.post(`${API_URL}/Account/SignIn`, {
@@ -31,14 +32,18 @@ export const logInController = async (req, res) => {
 
     // additional error handling
     if (!apiUsername || !apiRoles || !apiToken) {
-      return res.status(401).json({ error: 'Invalid username or password' });
+      return res.status(401).json({ error: 'Invalid response from API' });
     }
 
-    // all the username and roles will be stored in the session respectively
+    // sign a JWT token
+    const token = jwt.sign(
+      { username: apiUsername, roles: apiRoles },
+      process.env.SECRET_KEY,
+      { expiresIn: '1h' }
+    );
+    // all the username and roles will be stored in the session
     req.session.token = token;
-    res
-      .status(200)
-      .json({ username: apiUsername, roles: apiRoles, token: apiToken });
+    res.status(200).json({ username: apiUsername, roles: apiRoles, token });
   } catch (error) {
     console.error('API Error', error);
     res.status(401).json({ error: 'invalid username or password' });
