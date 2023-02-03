@@ -1,23 +1,28 @@
 import axios from 'axios';
+import * as dotenv from 'dotenv';
+dotenv.config();
 
-export const logInController = async (request, response) => {
+const API_URL = process.env.API_URL;
+
+export const logInController = async (req, res) => {
   // these are the only info that we need
-  const { username, password } = request.body;
+  const { username, password } = req.body;
 
   try {
-    const response = await axios.post(
-      'https://netzwelt-devtest.azurewebsites.net/Account/SignIn',
-      { username, password }
-    );
-
+    const apiResponse = await axios.post(`${API_URL}/Account/SignIn`, {
+      username,
+      password,
+    });
+    const { username, roles } = apiResponse.data;
+    // additional error handling
+    if (re)
     // all the username and roles will be stored in the session respectively
-    const { username, roles } = response.data;
-    request.session.username = username;
-    request.session.roles = roles;
+    req.session.username = username;
+    req.session.roles = roles;
     // after a succesful login, we will redirect the user to the homepage
-    response.redirect('/home');
+    res.redirect('/home');
   } catch (error) {
-    response.status(401).json({ error: 'Invalid credentials' });
+    res.status(401).json({ error: 'Invalid credentials' });
   }
 };
 
@@ -39,4 +44,3 @@ export const homePageController = async (request, response) => {
       .json({ error: 'Failed to retrieve territories' });
   }
 };
-
