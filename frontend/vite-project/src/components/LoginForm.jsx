@@ -14,19 +14,22 @@ const LoginForm = () => {
 
     try {
       const response = await axios.post('http://localhost:3070/login', {
-        username,
-        password,
+        username: 'foo',
+        password: 'bar',
       });
 
       if (response.status === 200) {
         setLoading(false);
         localStorage.setItem('token', response.data.token);
         localStorage.setItem('username', response.data.username);
+        localStorage.setItem('password', response.data.password);
         localStorage.setItem('roles', JSON.stringify(response.data.roles));
         window.location.href = '/home';
       } else {
         setLoading(false);
-        setError(response.data.error || 'Something went wrong, please try again later');
+        setError(
+          response.data.error || 'Something went wrong, please try again later'
+        );
       }
     } catch (error) {
       console.error(error);
