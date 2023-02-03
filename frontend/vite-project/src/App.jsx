@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import LoginForm from './components/LoginForm';
 import HomePage from './components/HomePage';
 
@@ -8,22 +9,20 @@ const AuthContext = React.createContext({
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [showHome, setShowHome] = useState(false);
 
   const handleLoginSuccess = () => setIsAuthenticated(true);
 
   return (
     <AuthContext.Provider value={{ isAuthenticated }}>
-      <div>
-        {isAuthenticated ? (
-          <button onClick={() => setShowHome(true)}>Go to Home Page</button>
-        ) : (
-          <LoginForm
-            onLoginSuccess={() => handleLoginSuccess(setShowHome(true))}
+      <BrowserRouter>
+        <Routes>
+          <Route
+            path='/'
+            element={<LoginForm onLoginSuccess={handleLoginSuccess} />}
           />
-        )}
-        {showHome && <HomePage />}
-      </div>
+          <Route path='/home' element={<HomePage />} />
+        </Routes>
+      </BrowserRouter>
     </AuthContext.Provider>
   );
 };
