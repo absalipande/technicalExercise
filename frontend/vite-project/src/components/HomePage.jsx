@@ -7,6 +7,13 @@ const HomePage = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      window.location.href = '/';
+    }
+  }, []);
+  
+  useEffect(() => {
     const fetchLocations = async () => {
       setLoading(true);
       try {
