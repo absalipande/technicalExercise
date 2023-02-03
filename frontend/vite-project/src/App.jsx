@@ -2,6 +2,12 @@ import LoginForm from './components/LoginForm';
 import HomePage from './components/HomePage';
 import { useState } from 'react';
 
+// create a context
+const AuthContext = React.createContext({
+  isAuthenticated: false,
+  setIsAuthenticated: () => {},
+});
+
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
@@ -10,10 +16,10 @@ const App = () => {
   };
 
   return (
-    <div>
-      {!isAuthenticated && <LoginForm onLoginSuccess={handleLoginSucces} />}
-      {isAuthenticated && <HomePage />}
-    </div>
+    <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated }}>
+      <LoginForm onLoginSuccess={handleLoginSucces} />
+      <HomePage />
+    </AuthContext.Provider>
   );
 };
 
