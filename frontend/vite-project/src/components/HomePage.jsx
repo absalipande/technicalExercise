@@ -15,7 +15,7 @@ const HomePage = () => {
         );
         setLocations(response.data);
       } catch (error) {
-        setError(error);
+        setError(error.message || 'Something went wrong, please try again later');
       }
       setLoading(false);
     };
@@ -29,7 +29,7 @@ const HomePage = () => {
 
   // error handling
   if (error) {
-    return <div>An error occured: {error.message}</div>;
+    return <div>An error occured: {error}</div>;
   }
 
   // if no available data
