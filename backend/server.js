@@ -5,7 +5,6 @@ import cors from 'cors';
 import helmet from 'helmet';
 
 import authRouter from './routes/authRouter.js';
-// import { corsMiddleware } from './middleware/corsMiddleware.js';
 
 dotenv.config();
 
@@ -16,9 +15,6 @@ app.use(cors());
 app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-// app.options('/Account/SignIn', corsMiddleware, (req, res) => {
-//   res.status(200).send();
-// });
 
 app.use(
   session({

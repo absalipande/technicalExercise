@@ -16,7 +16,7 @@ export const logInController = async (req, res) => {
   if (username !== 'foo' || password !== 'bar') {
     return res.status(401).json({ error: 'Invalid username or password' });
   }
-  
+
   try {
     const apiResponse = await axios.post(`${API_URL}/Account/SignIn`, {
       username,
