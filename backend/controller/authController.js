@@ -15,16 +15,20 @@ export const logInController = async (req, res) => {
     });
     const { username, roles } = apiResponse.data;
     // additional error handling
-    if (apiResponse.status !== 200) {
+    if (!username || !roles) {
       throw new Error('Unable to authenticate user');
     }
+
     // all the username and roles will be stored in the session respectively
-    req.session.username = username;
-    req.session.roles = roles;
+    req.session.set({
+      username,
+      roles,
+    });
+
     // after a succesful login, we will redirect the user to the homepage
     res.redirect('/home');
   } catch (error) {
-    res.status(401).json({ error: 'Invalid credentials' });
+    res.status(401).json({ error: 'Unauthorized' });
   }
 };
 
