@@ -15,7 +15,9 @@ export const logInController = async (req, res) => {
     });
     const { username, roles } = apiResponse.data;
     // additional error handling
-    if (re)
+    if (apiResponse.status !== 200) {
+      throw new Error('Unable to authenticate user');
+    }
     // all the username and roles will be stored in the session respectively
     req.session.username = username;
     req.session.roles = roles;
@@ -26,21 +28,17 @@ export const logInController = async (req, res) => {
   }
 };
 
-export const homePageController = async (request, response) => {
+export const homePageController = async (req, res) => {
   // if not valid user, we will redirect the user to the login page
-  if (!request.session.username) {
-    return response.redirect('/login');
+  if (!req.session.username) {
+    return res.redirect('/login');
   }
 
   try {
-    const response = await axios.get(
-      'https://netzwelt-devtest.azurewebsites.net/Territories/All'
-    );
-    const territories = response.data;
-    response.render('home', { territories });
+    const axiosResponse = await axios.get(`${API_URL}/Territories/All`);
+    const territories = axiosResponse.data;
+    res.render('home', { territories });
   } catch (error) {
-    return response
-      .status(400)
-      .json({ error: 'Failed to retrieve territories' });
+    return res.status(400).json({ error: 'Failed to retrieve territories' });
   }
 };
