@@ -25,7 +25,7 @@ const LoginForm = () => {
         }
       );
       // if response is not succesful
-      if (response.data !== 200) {
+      if (!response.data.token) {
         throw new Error('Login failed');
       }
       // if succesful
