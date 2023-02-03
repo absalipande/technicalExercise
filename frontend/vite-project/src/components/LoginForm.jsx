@@ -15,8 +15,13 @@ const LoginForm = () => {
       const response = await axios.post(
         'https://netzwelt-devtest.azurewebsites.net/Account/SignIn',
         {
-          username: username,
-          password: password,
+          username,
+          password,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
         }
       );
       // if response is not succesful
